@@ -1,2 +1,0 @@
-# RabbitMQTutorial
- rabbitMQ messaging study
