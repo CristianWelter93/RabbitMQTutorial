@@ -1,0 +1,4 @@
+com\example\demo\RabbitMqTutorial.class
+com\example\demo\messages\Service\Recieve.class
+com\example\demo\messages\Service\SendService.class
+com\example\demo\messages\Controller\MessagesController.class
