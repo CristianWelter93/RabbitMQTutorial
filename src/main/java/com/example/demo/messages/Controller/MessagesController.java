@@ -1,6 +1,7 @@
 package com.example.demo.messages.Controller;
 
 
+import com.example.demo.messages.Exchanges.SendServiceExchanges;
 import com.example.demo.messages.Service.SendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -20,9 +21,18 @@ public class MessagesController {
   @Autowired
   SendService sendService;
 
+  @Autowired
+  SendServiceExchanges sendServiceExchanges;
+
   @PostMapping("/send")
   public HttpEntity sendMessage(@RequestParam(value = "message", defaultValue = "no message", required = false) String message) throws IOException, TimeoutException {
     sendService.sendMessage(message);
+    return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/send/fanout")
+  public HttpEntity sendMessageFanout(@RequestParam(value = "message", defaultValue = "send to all consumers", required = false) String message) throws IOException, TimeoutException {
+    sendServiceExchanges.sendMessageFanout(message);
     return ResponseEntity.ok().build();
   }
 
