@@ -1,14 +1,13 @@
-package com.example.demo.messages.Service;
+package com.example.demo.consumers;
 
-import com.rabbitmq.client.*;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DeliverCallback;
 
-import javax.annotation.PostConstruct;
 
-
-public class ReceiveService {
-  private final static String QUEUE_NAME = "task_queue";
+public class ReceiveServiceFanout {
+  private static final String EXCHANGE_NAME = "message_fanout";
 
   public static void main(String[] argv) throws Exception {
     ConnectionFactory factory = new ConnectionFactory();
@@ -16,13 +15,13 @@ public class ReceiveService {
     final Connection connection = factory.newConnection();
     final Channel channel = connection.createChannel();
 
-    channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+    channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 
-    channel.basicQos(1); // fair dispatch
+    String queueName = channel.queueDeclare().getQueue();
 
-    System.out.println(" [*] Waiting for messages");
+    channel.queueBind(queueName, EXCHANGE_NAME, "");
 
-
+    System.out.println(" [*] Waiting for messages fanout");
 
     DeliverCallback deliverCallback = (consumerTag, delivery) -> {
       String message = new String(delivery.getBody(), "UTF-8");
@@ -35,7 +34,7 @@ public class ReceiveService {
         channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
       }
     };
-    channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
+    channel.basicConsume(queueName, false, deliverCallback, consumerTag -> { });
   }
 
   private static void doWork(String task) {
