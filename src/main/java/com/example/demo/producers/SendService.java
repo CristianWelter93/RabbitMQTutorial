@@ -1,5 +1,6 @@
 package com.example.demo.producers;
 
+import com.example.demo.entity.MessageText;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class SendService {
     System.out.println(" [x] Sent '" + message + "'");
   }
 
-  public void sendMessageExchanges(String exchange,String routingKey,String message) {
+  public void sendMessageExchanges(String exchange, String routingKey, MessageText message) {
     this.template.convertAndSend(exchange, routingKey, message);
     System.out.println(" Sent message '" + message + "' to " +exchange + "  " +  routingKey);
   }

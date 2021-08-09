@@ -20,9 +20,6 @@ public class RabbitMQConfig {
   @Value("${second.queue.basic}")
   private String secondQueue;
 
-  @Value("${json.queue.basic}")
-  private String jsonQueue;
-
   @Bean
   public Queue queue() {
     return QueueBuilder
@@ -44,18 +41,9 @@ public class RabbitMQConfig {
         .build();
   }
 
-  @Bean
-  public Queue jsonQueue() {
-    return QueueBuilder
-        .durable(jsonQueue)
-        .build();
-  }
-
-  /*  UTILIZAR quando estiver enviando um objeto no formato JSON
+  //  UTILIZAR quando estiver enviando um objeto no formato JSON
   @Bean
   public Jackson2JsonMessageConverter messageConverter() {
     return new Jackson2JsonMessageConverter();
   }
-  */
-
 }

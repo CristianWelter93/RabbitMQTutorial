@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entity.MessageText;
 import com.example.demo.producers.SendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -25,7 +26,7 @@ public class MessagesController {
 
   @PostMapping("/{exchange}/{routingKey}")
   public HttpEntity sendMessageFanout(
-      @RequestParam(value = "message", defaultValue = "send to all consumers", required = false) String message,
+      @RequestBody MessageText message,
       @PathVariable String exchange,
       @PathVariable String routingKey
   )  {

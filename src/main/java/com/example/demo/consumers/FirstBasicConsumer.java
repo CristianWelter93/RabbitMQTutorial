@@ -1,7 +1,9 @@
 package com.example.demo.consumers;
 
+import com.example.demo.entity.MessageText;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -10,16 +12,12 @@ import java.io.UnsupportedEncodingException;
 public class FirstBasicConsumer {
 
   @RabbitListener(queues = "${first.queue.basic}")
-  public void receiveMessageFromFirstQueue(Message message) throws UnsupportedEncodingException {
-    System.out.println("Receive message from -> " + message.getMessageProperties().getConsumerQueue());
-    String bodyAsString =  new String(message.getBody(), "UTF-8");;
-    System.out.println("Message: " + bodyAsString + "\n");
+  public void receiveMessageFromFirstQueue(@Payload MessageText message)  {
+    System.out.println("Receive Message: " + message.getMessage() + "\n");
   }
 
   @RabbitListener(queues = "${second.queue.basic}")
-  public void receiveMessageFromSecondQueue(Message message) throws UnsupportedEncodingException {
-    System.out.println("Receive message from -> " + message.getMessageProperties().getConsumerQueue());
-    String bodyAsString =  new String(message.getBody(), "UTF-8");;
-    System.out.println("Message: " + bodyAsString + "\n");
+  public void receiveMessageFromSecondQueue(@Payload MessageText message)  {
+    System.out.println("Receive Message: " + message.getMessage() + "\n");
   }
 }
