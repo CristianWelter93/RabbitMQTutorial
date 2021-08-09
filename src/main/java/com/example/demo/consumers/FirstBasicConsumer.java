@@ -13,11 +13,11 @@ public class FirstBasicConsumer {
 
   @RabbitListener(queues = "${first.queue.basic}")
   public void receiveMessageFromFirstQueue(@Payload MessageText message)  {
-    System.out.println("Receive Message: " + message.getMessage() + "\n");
+    System.out.println("Receive Message FIRST QUEUE: " + message.getMessage() + "\n");
   }
 
   @RabbitListener(queues = "${second.queue.basic}")
   public void receiveMessageFromSecondQueue(@Payload MessageText message)  {
-    System.out.println("Receive Message: " + message.getMessage() + "\n");
+    System.out.println("Receive Message SECOND QUEUE: " + message.getMessage() + "\n");
   }
 }

@@ -14,9 +14,6 @@ public class DirectConfig {
   @Autowired
   private Queue secondQueue;
 
-  @Autowired
-  private Queue jsonQueue;
-
   @Bean
   public Exchange directExchange() {
     return ExchangeBuilder
@@ -40,15 +37,6 @@ public class DirectConfig {
         .bind(secondQueue)
         .to(directExchange())
         .with("TO-SECOND-QUEUE")
-        .noargs();
-  }
-
-  @Bean
-  public Binding jsonDirectBinding() {
-    return BindingBuilder
-        .bind(jsonQueue)
-        .to(directExchange())
-        .with("TO-JSON-QUEUE")
         .noargs();
   }
 }
